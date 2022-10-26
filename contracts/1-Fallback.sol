@@ -1,6 +1,7 @@
-pragma solidity ^0.6.0;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
 
-import '@openzeppelin/contracts/math/SafeMath.sol';
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
 contract Fallback {
 
@@ -8,8 +9,8 @@ contract Fallback {
   mapping(address => uint) public contributions;
   address payable public owner;
 
-  constructor() public {
-    owner = msg.sender;
+  constructor() {
+    owner = payable(msg.sender);
     contributions[msg.sender] = 1000 * (1 ether);
   }
 
@@ -21,11 +22,12 @@ contract Fallback {
         _;
     }
 
+// 1) Send lt 0.001 ether to create contributions[msg.sender]
   function contribute() public payable {
     require(msg.value < 0.001 ether);
     contributions[msg.sender] += msg.value;
     if(contributions[msg.sender] > contributions[owner]) {
-      owner = msg.sender;
+      owner = payable(msg.sender);
     }
   }
 
@@ -33,12 +35,14 @@ contract Fallback {
     return contributions[msg.sender];
   }
 
+// 3) Withdraw everything
   function withdraw() public onlyOwner {
     owner.transfer(address(this).balance);
   }
 
+// 2) call fallback to become owner
   fallback() external payable {
     require(msg.value > 0 && contributions[msg.sender] > 0);
-    owner = msg.sender;
+    owner = payable(msg.sender);
   }
 }

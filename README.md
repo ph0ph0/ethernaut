@@ -34,3 +34,8 @@ Optionally set the block number in the `hardhat.config.ts` hardhat network confi
 # fork rinkeby but run locally
 npx hardhat test test/0-hello.ts
 ```
+
+if running against mumbai:
+```
+hh test --network mumbai
+```

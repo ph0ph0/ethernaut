@@ -1,8 +1,10 @@
-import dotenv from "dotenv";
+const dotenv = require("dotenv");
 dotenv.config(); // load env vars from .env
-import { task, HardhatUserConfig } from "hardhat/config";
-import "@nomiclabs/hardhat-waffle";
-import "./tasks/index";
+require("@nomicfoundation/hardhat-toolbox");
+require("@nomicfoundation/hardhat-chai-matchers");
+require("@nomiclabs/hardhat-ethers");
+require("dotenv").config();
+require("@nomiclabs/hardhat-etherscan");
 
 const { ARCHIVE_URL, MNEMONIC } = process.env;
 
@@ -21,19 +23,37 @@ const accounts = {
 };
 
 // Go to https://hardhat.org/config/ to learn more
-const config: HardhatUserConfig = {
+module.exports = {
   solidity: {
+    solidity: "0.8.9",
     compilers: [
       // old ethernaut compilers
       { version: "0.5.0" },
       { version: "0.6.0" },
-      { version: "0.7.3" }
+      { version: "0.7.3" },
+      {
+        version: "0.8.4",
+      },
+      {
+        version: "0.7.0",
+      },
+      {
+        version: "0.6.6",
+      },
+      {
+        version: "0.4.24",
+      },
     ],
   },
   networks: {
     rinkeby: {
       url: ARCHIVE_URL,
       accounts,
+    },
+    mumbai: {
+      url: process.env.MUMBAI_RPC_URL,
+      chainId: 80001,
+      accounts: [process.env.METAMASK_MUMBAI_PRIVATE_KEY],
     },
     hardhat: {
       accounts,
@@ -45,7 +65,5 @@ const config: HardhatUserConfig = {
   },
   mocha: {
     timeout: 300 * 1e3,
-  }
+  },
 };
-
-export default config;
