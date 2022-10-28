@@ -46,6 +46,13 @@ module.exports = {
     ],
   },
   networks: {
+    hardhat: {
+      accounts,
+      forking: {
+        url: "http://127.0.0.1:7545",
+        blockNumber: 0,
+      },
+    },
     rinkeby: {
       url: ARCHIVE_URL,
       accounts,
@@ -54,6 +61,15 @@ module.exports = {
       url: process.env.MUMBAI_RPC_URL,
       chainId: 80001,
       accounts: [process.env.METAMASK_MUMBAI_PRIVATE_KEY],
+    },
+    local_mumbai: {
+      url: process.env.LOCAL_MUMBAI_RPC_URL,
+      chainId: 80001,
+      accounts: [process.env.METAMASK_MUMBAI_PRIVATE_KEY],
+    },
+    mumbai_fork: {
+      url: "http://127.0.0.1:7545",
+      chainId: 31337,
     },
     hardhat: {
       accounts,
