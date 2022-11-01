@@ -49,8 +49,7 @@ module.exports = {
     hardhat: {
       accounts,
       forking: {
-        url: "http://127.0.0.1:7545",
-        blockNumber: 0,
+        url: "https://polygon-mumbai.g.alchemy.com/v2/TbuFA67XHLgTZvV3ZLM-xgf4WftoizvM",
       },
     },
     rinkeby: {
@@ -63,20 +62,12 @@ module.exports = {
       accounts: [process.env.METAMASK_MUMBAI_PRIVATE_KEY],
     },
     local_mumbai: {
-      url: process.env.LOCAL_MUMBAI_RPC_URL,
-      chainId: 80001,
+      url: "http://127.0.0.1:7545",
       accounts: [process.env.METAMASK_MUMBAI_PRIVATE_KEY],
     },
     mumbai_fork: {
       url: "http://127.0.0.1:7545",
       chainId: 31337,
-    },
-    hardhat: {
-      accounts,
-      forking: {
-        url: ARCHIVE_URL, // https://eth-rinkeby.alchemyapi.io/v2/SECRET`,
-        blockNumber: 7838325,
-      },
     },
   },
   mocha: {

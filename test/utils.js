@@ -1,4 +1,4 @@
-const { Contract, Signer } = require("ethers");
+const { Contract, Signer, getDefaultProvider } = require("ethers");
 const { LogDescription } = require("ethers/lib/utils");
 const { ethers } = require("hardhat");
 
@@ -172,6 +172,7 @@ module.exports.submitLevel = async (address) => {
 };
 
 module.exports.createChallenge = async (contractLevel, value = `0`) => {
+  console.log(`creating challenge: ${JSON.stringify(contractLevel)}`);
   try {
     const ethernaut = await ethers.getContractAt(
       ETHERNAUT_ABI,
@@ -181,7 +182,6 @@ module.exports.createChallenge = async (contractLevel, value = `0`) => {
       value,
     });
     await tx.wait();
-
     const txReceipt = await ethernaut.provider.getTransactionReceipt(tx.hash);
     if (txReceipt.logs.length === 0) throw new Error(`No event found`);
     const events = txReceipt.logs
@@ -201,7 +201,7 @@ module.exports.createChallenge = async (contractLevel, value = `0`) => {
 
     return event.args.instance;
   } catch (error) {
-    console.error(`createChallenge: ${error.message}`);
+    console.error(`createChallenge Error: ${error.message}`);
     throw new Error(`createChallenge failed: ${error.message}`);
   }
 };
