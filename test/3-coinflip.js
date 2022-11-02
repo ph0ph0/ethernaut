@@ -27,6 +27,11 @@ const abi = [
 const contractLevel = "0xbeC52F1be33b65d5a5B7B32Aa64f9abF6a6Abb58";
 
 before(async () => {
+  const provider = await ethers.provider;
+  const { chainId, name, url } = await provider.getNetwork();
+  console.log(url); // 42
+
+  console.log(`code: ${JSON.stringify(await provider.getCode(contractLevel))}`);
   [eoa] = await ethers.getSigners();
   challengeAddress = await createChallenge(contractLevel);
   //   const artifact = await artifacts.readArtifact("Fal1out");
