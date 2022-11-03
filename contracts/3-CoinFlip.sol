@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.6.0;
 
-import "./SafeMathv0.6.0.sol";
+import "@openzeppelin/contracts/math/SafeMath.sol";
 
 contract CoinFlip {
 

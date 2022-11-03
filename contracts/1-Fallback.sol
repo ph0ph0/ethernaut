@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity ^0.6.0;
 
-import "@openzeppelin/contracts/utils/math/SafeMath.sol";
+import "@openzeppelin/contracts/math/SafeMath.sol";
 
 contract Fallback {
 
@@ -9,7 +9,7 @@ contract Fallback {
   mapping(address => uint) public contributions;
   address payable public owner;
 
-  constructor() {
+  constructor() public {
     owner = payable(msg.sender);
     contributions[msg.sender] = 1000 * (1 ether);
   }

@@ -3,7 +3,7 @@ const { LogDescription } = require("ethers/lib/utils");
 const { ethers } = require("hardhat");
 
 // manually copied from the website while inspect the web console's `ethernaut.abi`
-const ETHERNAUT_ABI = [
+ETHERNAUT_ABI = [
   {
     anonymous: false,
     inputs: [
@@ -171,9 +171,37 @@ module.exports.submitLevel = async (address) => {
   }
 };
 
-module.exports.createChallenge = async (contractLevel, value = `0`) => {
-  console.log(`creating challenge: ${JSON.stringify(contractLevel)}`);
+module.exports.createChallenge = async (
+  contractLevel,
+  value = `0`,
+  levelName = ""
+) => {
+  const provider = await ethers.provider;
+  console.log(`ad: ${JSON.stringify(ETHERNAUT_ADDRESS)}`);
+  const contractCode = await provider.getCode(ETHERNAUT_ADDRESS);
+
+  if (contractCode == "0x") {
+    // If no code is deployed to the ethernaut mumbai address, then we are
+    // not on a fork and must deploy our own code.
+    const ethernautFactory = await ethers.getContractFactory("Ethernaut");
+    console.log("!!!Deploying ethernaut contract");
+
+    const ethernaut = await ethernautFactory.deploy();
+    await ethernaut.deployed();
+    console.log(`deployed ethernaut to: ${JSON.stringify(ethernaut.address)}`);
+
+    // Update the ethernaut address to the deployed address
+    ETHERNAUT_ADDRESS = ethernaut.address;
+
+    // Now we need to register the level with the ethernaut contract. We do
+    // that by passing in ContractFactory contract for the level.
+    if (levelName == "") {
+      throw Error("You must provide a level name if on local hh network");
+    }
+  }
+  console.log(`ethernaut address is: ${JSON.stringify(ETHERNAUT_ADDRESS)}`);
   try {
+    console.log(`creating challenge: ${JSON.stringify(contractLevel)}`);
     const ethernaut = await ethers.getContractAt(
       ETHERNAUT_ABI,
       ETHERNAUT_ADDRESS
