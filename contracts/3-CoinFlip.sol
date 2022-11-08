@@ -2,6 +2,7 @@
 pragma solidity ^0.6.0;
 
 import "@openzeppelin/contracts/math/SafeMath.sol";
+import "hardhat/console.sol";
 
 contract CoinFlip {
 
@@ -25,7 +26,8 @@ contract CoinFlip {
     lastHash = blockValue;
     uint256 coinFlip = blockValue.div(FACTOR);
     bool side = coinFlip == 1 ? true : false;
-
+    console.log("blockValue: ", blockValue);
+    console.log("Coinflip quotient value: ", coinFlip);
     if (side == _guess) {
       consecutiveWins++;
       return true;

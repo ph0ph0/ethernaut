@@ -3,6 +3,7 @@
 pragma solidity ^0.6.0;
 
 import './Level.sol';
+import "hardhat/console.sol";
 import '@openzeppelin/contracts/access/Ownable.sol';
 
 contract Ethernaut is Ownable {
@@ -15,7 +16,9 @@ contract Ethernaut is Ownable {
 
   // Only registered levels will be allowed to generate and validate level instances.
   function registerLevel(Level _level) public onlyOwner {
+    console.log("registered level");
     registeredLevels[address(_level)] = true;
+    console.log(registeredLevels[address(_level)]);
   }
 
   // ----------------------------------

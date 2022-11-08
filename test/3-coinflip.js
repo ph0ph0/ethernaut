@@ -37,10 +37,45 @@ before(async () => {
 
   console.log(`code: ${JSON.stringify(await provider.getCode(contractLevel))}`);
   [eoa] = await ethers.getSigners();
-  challengeAddress = await createChallenge(contractLevel, 0, "CoinFlip");
+  challengeAddress = await createChallenge(contractLevel, 0, "CoinFlipFactory");
   //   const artifact = await artifacts.readArtifact("Fal1out");
   challenge = new ethers.Contract(challengeAddress, abi, eoa);
   console.log(`eoa address: ${JSON.stringify(eoa.address)}`);
 });
 
-it("solves the challenge", async () => {});
+it("solves the challenge", async () => {
+  console.log(`----------------`);
+  let tx = await challenge.flip(false);
+  let txRt = await tx.wait(1);
+  // console.log(`txRt: ${JSON.stringify(txRt)}`);
+
+  let consecutiveWins = await challenge.consecutiveWins();
+  console.log(`consecutiveWins: ${JSON.stringify(consecutiveWins)}`);
+
+  tx = await challenge.flip(false);
+  txRt = await tx.wait(1);
+  consecutiveWins = await challenge.consecutiveWins();
+  console.log(`consecutiveWins: ${JSON.stringify(consecutiveWins)}`);
+
+  tx = await challenge.flip(false);
+  txRt = await tx.wait(1);
+  consecutiveWins = await challenge.consecutiveWins();
+  console.log(`consecutiveWins: ${JSON.stringify(consecutiveWins)}`);
+
+  tx = await challenge.flip(false);
+  txRt = await tx.wait(1);
+  consecutiveWins = await challenge.consecutiveWins();
+  console.log(`consecutiveWins: ${JSON.stringify(consecutiveWins)}`);
+
+  tx = await challenge.flip(false);
+  txRt = await tx.wait(1);
+  consecutiveWins = await challenge.consecutiveWins();
+  console.log(`consecutiveWins: ${JSON.stringify(consecutiveWins)}`);
+
+  tx = await challenge.flip(false);
+  txRt = await tx.wait(1);
+  consecutiveWins = await challenge.consecutiveWins();
+  console.log(`consecutiveWins: ${JSON.stringify(consecutiveWins)}`);
+
+  console.log(`hre.localNetworkX: ${JSON.stringify(hre.localNetworkX)}`);
+});

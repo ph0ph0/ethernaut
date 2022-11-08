@@ -174,18 +174,22 @@ module.exports.submitLevel = async (address) => {
 module.exports.createChallenge = async (
   contractLevel,
   value = `0`,
-  levelName = ""
+  levelNameFactory = ""
 ) => {
   const provider = await ethers.provider;
   console.log(`ad: ${JSON.stringify(ETHERNAUT_ADDRESS)}`);
   const contractCode = await provider.getCode(ETHERNAUT_ADDRESS);
 
+  // If no code is deployed to the ethernaut mumbai address, then we are
+  // not on a fork and must deploy our own code.
+  // Create our own boolean on the hardhat runtime environment called localNetwork,
+  // which we can check across our codebase.
+  hre.localNetwork = false;
   if (contractCode == "0x") {
-    // If no code is deployed to the ethernaut mumbai address, then we are
-    // not on a fork and must deploy our own code.
+    hre.localNetwork = true;
+    // Deploy Ethernaut contract
     const ethernautFactory = await ethers.getContractFactory("Ethernaut");
     console.log("!!!Deploying ethernaut contract");
-
     const ethernaut = await ethernautFactory.deploy();
     await ethernaut.deployed();
     console.log(`deployed ethernaut to: ${JSON.stringify(ethernaut.address)}`);
@@ -195,9 +199,27 @@ module.exports.createChallenge = async (
 
     // Now we need to register the level with the ethernaut contract. We do
     // that by passing in ContractFactory contract for the level.
-    if (levelName == "") {
+    if (levelNameFactory == "") {
       throw Error("You must provide a level name if on local hh network");
     }
+    const contractFactory = await ethers.getContractFactory(levelNameFactory);
+    const coinFlipContractFactory = await contractFactory.deploy();
+    await coinFlipContractFactory.deployed();
+    console.log(
+      `coinflipFactory address: ${JSON.stringify(
+        coinFlipContractFactory.address
+      )}`
+    );
+
+    // Next, register the contract factory address with Ethernaut contract
+    const registerTx = await ethernaut.registerLevel(
+      coinFlipContractFactory.address
+    );
+    const registerTxRt = await registerTx.wait(1);
+    // console.log(`registerTxRt: ${JSON.stringify(registerTxRt)}`);
+    // Finally, overwrite the contractLevel param with the coin flip factory
+    // address.
+    contractLevel = coinFlipContractFactory.address;
   }
   console.log(`ethernaut address is: ${JSON.stringify(ETHERNAUT_ADDRESS)}`);
   try {
