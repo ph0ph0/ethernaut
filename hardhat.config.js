@@ -48,9 +48,9 @@ module.exports = {
   networks: {
     hardhat: {
       accounts,
-      // forking: {
-      //   url: "https://polygon-mumbai.g.alchemy.com/v2/TbuFA67XHLgTZvV3ZLM-xgf4WftoizvM",
-      // },
+      forking: {
+        url: "https://polygon-mumbai.g.alchemy.com/v2/TbuFA67XHLgTZvV3ZLM-xgf4WftoizvM",
+      },
     },
     rinkeby: {
       url: ARCHIVE_URL,

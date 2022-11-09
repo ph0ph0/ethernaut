@@ -45,37 +45,21 @@ before(async () => {
 
 it("solves the challenge", async () => {
   console.log(`----------------`);
-  let tx = await challenge.flip(false);
-  let txRt = await tx.wait(1);
-  // console.log(`txRt: ${JSON.stringify(txRt)}`);
+  let hackContractFactory = await ethers.getContractFactory("CoinFlipHack");
+  let hackContract = await hackContractFactory.deploy(challenge.address);
+  await hackContract.deployed();
+  console.log(`hackContract Address: ${JSON.stringify(hackContract.address)}`);
 
   let consecutiveWins = await challenge.consecutiveWins();
+  while (consecutiveWins < 10) {
+    console.log(`in loop...`);
+    let tx = await hackContract.hackFlip(false);
+    let txRt = await tx.wait(1);
+    consecutiveWins = await challenge.consecutiveWins();
+  }
   console.log(`consecutiveWins: ${JSON.stringify(consecutiveWins)}`);
+});
 
-  tx = await challenge.flip(false);
-  txRt = await tx.wait(1);
-  consecutiveWins = await challenge.consecutiveWins();
-  console.log(`consecutiveWins: ${JSON.stringify(consecutiveWins)}`);
-
-  tx = await challenge.flip(false);
-  txRt = await tx.wait(1);
-  consecutiveWins = await challenge.consecutiveWins();
-  console.log(`consecutiveWins: ${JSON.stringify(consecutiveWins)}`);
-
-  tx = await challenge.flip(false);
-  txRt = await tx.wait(1);
-  consecutiveWins = await challenge.consecutiveWins();
-  console.log(`consecutiveWins: ${JSON.stringify(consecutiveWins)}`);
-
-  tx = await challenge.flip(false);
-  txRt = await tx.wait(1);
-  consecutiveWins = await challenge.consecutiveWins();
-  console.log(`consecutiveWins: ${JSON.stringify(consecutiveWins)}`);
-
-  tx = await challenge.flip(false);
-  txRt = await tx.wait(1);
-  consecutiveWins = await challenge.consecutiveWins();
-  console.log(`consecutiveWins: ${JSON.stringify(consecutiveWins)}`);
-
-  console.log(`hre.localNetworkX: ${JSON.stringify(hre.localNetworkX)}`);
+after(async () => {
+  expect(await submitLevel(challenge.address), "level not solved").to.be.true;
 });
