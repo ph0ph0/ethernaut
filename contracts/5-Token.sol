@@ -13,15 +13,10 @@ contract Token {
   }
 
   function transfer(address _to, uint _value) public returns (bool) {
-    require(balances[msg.sender] - _value >= 0, "balance not sufficient");
-    console.log("balance of msg.sender: ", balances[msg.sender]);
-    console.log("balance of ", msg.sender, "after transfer after transfer will be: ", balances[msg.sender] - _value);
-    console.log("value is: ", _value);
-    console.log("balance of msg.sender is: ", balances[msg.sender]);
+    require(balances[msg.sender] - _value >= 0, "balance not sufficient"); 
     balances[msg.sender] -= _value;
-    console.log("balance minus value: ", balances[msg.sender]);
     balances[_to] += _value;
-    console.log("balance plus value: ", balances[_to] += _value);
+
 
     return true;
   }
