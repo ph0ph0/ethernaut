@@ -17,7 +17,6 @@ contract Token {
     balances[msg.sender] -= _value;
     balances[_to] += _value;
 
-
     return true;
   }
 
