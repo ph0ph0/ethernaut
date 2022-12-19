@@ -49,8 +49,55 @@ before(async () => {
 });
 
 it("solves the challenge", async () => {
-  let data = await ethers.provider.getStorageAt(challenge.address, 5);
+  let data = await ethers.provider.getStorageAt(challenge.address, 2);
   console.log(`data: ${JSON.stringify(data)}`);
+  let bN = ethers.BigNumber.from(data);
+  console.log(`bN: ${JSON.stringify(bN)}`);
+  // const bytes = ethers.utils.arrayify(data);
+  // console.log(`bytes: ${JSON.stringify(bytes)}`);
+  // let decodedData = await ethers.utils.defaultAbiCoder.decode(["bytes32"]);
+  // console.log(`decodedData: ${JSON.stringify(decodedData)}`);
+  // 0x19a3d1dd174f4c665ca125fb4734f75be7378ad5bbe5467d7537c6459b578c45
+  // let data = ethers.utils.keccak256(
+  //   ethers.utils.solidityPack(["uint256"], [5])
+  // );
+  // console.log(`data: ${JSON.stringify(data)}`);
+  //0x036b6384b5eca791c62761152d0c79bb0604c104a5fb6f4eb0703f3154bb3db0
+  // const storageSlot = 6; // storage slot of the array
+  // const elementIndex = 1; // index of the element you want to access (2nd element)
+  // // get the value at the storage slot
+  // const storageValue = await ethers.provider.getStorageAt(
+  //   challenge.address,
+  //   storageSlot
+  // );
+  // console.log(`storageValue: ${JSON.stringify(storageValue)}`);
+  // // convert the value to a BigNumber
+  // const storageValueBN = ethers.BigNumber.from(storageValue);
+  // console.log(`storageValueBN: ${JSON.stringify(storageValueBN)}`);
+  // // multiply the element index by 32 to get the offset of the element in the array
+  // const elementOffsetBN = ethers.BigNumber.from(elementIndex).mul(32);
+  // console.log(`elementOffsetBN: ${JSON.stringify(elementOffsetBN)}`);
+  // // add the element offset to the storage value to get the location of the element
+  // const elementLocationBN = storageValueBN.add(elementOffsetBN);
+  // console.log(`elementLocationBN: ${JSON.stringify(elementLocationBN)}`);
+  // // convert the element location to a hex string
+  // const elementLocation = elementLocationBN.toHexString();
+  // console.log(`elementLocation: ${JSON.stringify(elementLocation)}`);
+  // // get the value at the element location
+  // const elementValue = await ethers.provider.getStorageAt(
+  //   challenge.address,
+  //   elementLocation
+  // );
+  // console.log(`elementValue: ${JSON.stringify(elementValue)}`);
+  // // elementValue is the value of the 2nd element in the array
+  // const storageSlot = 5; // storage slot of the array
+  // const elementIndex = 0; // index of the element in the array (0-indexed)
+  // const elementOffset = elementIndex * 32; // offset of the element in the storage slot
+  // const element = await ethers.provider.getStorageAt(
+  //   challenge.address,
+  //   storageSlot + elementOffset
+  // );
+  // console.log(element); // prints the element as a hexadecimal string
 });
 
 // after(async () => {
