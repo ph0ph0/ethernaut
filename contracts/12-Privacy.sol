@@ -15,7 +15,7 @@ contract Privacy {
   }
   
   function unlock(bytes16 _key) public {
-    require(_key == bytes16(data[2]));
+    require(_key == bytes16(data[2]), "Incorrect key");
     locked = false;
   }
 
