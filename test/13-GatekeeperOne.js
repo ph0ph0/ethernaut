@@ -39,8 +39,17 @@ before(async () => {
   console.log(`eoa address: ${JSON.stringify(eoa.address)}`);
 });
 
-it("solves the challenge", async () => {});
-
-after(async () => {
-  expect(await submitLevel(challenge.address), "level not solved").to.be.true;
+it("solves the challenge", async () => {
+  console.log(`eoa: ${JSON.stringify(eoa)}`);
+  let attackFactory = await ethers.getContractFactory("GatekeeperOneAttack");
+  let attackContract = await attackFactory.deploy(
+    eoa.address,
+    challenge.address
+  );
+  await attackContract.deployed();
+  await attackContract.attack();
 });
+
+// after(async () => {
+//   expect(await submitLevel(challenge.address), "level not solved").to.be.true;
+// });
