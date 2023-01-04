@@ -5,6 +5,7 @@ import "hardhat/console.sol";
 
 interface GatekeeperOne {
     function enter(bytes8 _gateKey) external returns (bool);
+    function checkGateThree(bytes8 _gateKey) external view; 
 }
 
 contract GatekeeperOneAttack {
@@ -20,7 +21,7 @@ contract GatekeeperOneAttack {
     }
 
     function attack() public {
-        bytes8 _gateKey;
+        bytes8 _gateKey = bytes8(719);
         uint160 eoaUint160 = uint160(eoa);
         console.log("eoaUint160: ", eoaUint160);
         console.log("eoaUint16", uint16(eoaUint160));
@@ -31,6 +32,7 @@ contract GatekeeperOneAttack {
         // 0x0230e85a291190b4
         uint64 i = uint64(valueAsBytes);
         console.log("i", i);
+        gatekeeperOne.checkGateThree(_gateKey);
         // 18446744073709551616
         // 10534176101865001140
         // 10534176101864935604
