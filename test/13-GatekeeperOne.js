@@ -33,7 +33,11 @@ const contractLevel = "0x46f79002907a025599f355A04A512A6Fd45E671B";
 
 before(async () => {
   [eoa] = await ethers.getSigners();
-  challengeAddress = await createChallenge(contractLevel, 0, "PrivacyFactory");
+  challengeAddress = await createChallenge(
+    contractLevel,
+    0,
+    "GatekeeperOneFactory"
+  );
   //   const artifact = await artifacts.readArtifact("Fal1out");
   challenge = new ethers.Contract(challengeAddress, abi, eoa);
   console.log(`eoa address: ${JSON.stringify(eoa.address)}`);
