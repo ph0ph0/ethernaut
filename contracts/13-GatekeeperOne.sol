@@ -7,6 +7,7 @@ contract GatekeeperOne {
 
   address public entrant;
 
+// Pass this by calling `enter()` from a contract, so origin is eoa.
   modifier gateOne() {
     require(msg.sender != tx.origin);
     _;
@@ -27,7 +28,7 @@ contract GatekeeperOne {
   // TEST FUNCTION
   function checkGateThree(bytes8 _gateKey) public view {
     require(uint32(uint64(_gateKey)) == uint16(uint64(_gateKey)), "GatekeeperOne: invalid gateThree part one");
-    // require(uint32(uint64(_gateKey)) != uint64(_gateKey), "GatekeeperOne: invalid gateThree part two");
+    require(uint32(uint64(_gateKey)) != uint64(_gateKey), "GatekeeperOne: invalid gateThree part two");
     require(uint32(uint64(_gateKey)) == uint16(uint160(tx.origin)), "GatekeeperOne: invalid gateThree part three");
     console.log("PASSED GATE 3!");
   }
