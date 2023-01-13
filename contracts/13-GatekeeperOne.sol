@@ -30,6 +30,7 @@ contract GatekeeperOne {
     require(uint32(uint64(_gateKey)) == uint16(uint64(_gateKey)), "GatekeeperOne: invalid gateThree part one");
     require(uint32(uint64(_gateKey)) != uint64(_gateKey), "GatekeeperOne: invalid gateThree part two");
     require(uint32(uint64(_gateKey)) == uint16(uint160(tx.origin)), "GatekeeperOne: invalid gateThree part three");
+    require(gasleft() % 8191 == 0);
     console.log("PASSED GATE 3!");
   }
 
