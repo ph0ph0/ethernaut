@@ -1,17 +1,19 @@
 pragma solidity ^0.8.0;
-import "hardhat/console.sol";
 
-interface GatekeeperTwo {
+import "forge-std/Test.sol";
+
+interface IGatekeeperTwo {
     function enter(bytes8 _gateKey) external returns (bool);
     function check() external;
 }
 
 contract GatekeeperTwoAttack {
 
-    GatekeeperTwo gateKeeper;
+    IGatekeeperTwo gateKeeperTwo;
 
     constructor(address addr) {
-        gateKeeper = GatekeeperTwo(addr);
-        gateKeeper.check();
+        console.log('msg.sender deployer', msg.sender);
+        gateKeeperTwo = IGatekeeperTwo(addr);
+        gateKeeperTwo.check();
     }
 }

@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
-import "hardhat/console.sol";
+
+import "forge-std/console.sol";
 
 contract GatekeeperTwo {
 
@@ -23,8 +24,17 @@ contract GatekeeperTwo {
     _;
   }
 
-  function check(uint64 _gateKey) public view {
-    uint64(bytes8(keccak256(abi.encodePacked(msg.sender)))) ^ uint64(_gateKey) == type(uint64).max;
+  function check() public view {
+    // uint64(bytes8(keccak256(abi.encodePacked(msg.sender)))) ^ uint64(_gateKey) == type(uint64).max;
+    console.log("msg.sender", msg.sender);
+    console.log("tx.origin", tx.origin);
+    require(msg.sender != tx.origin, "Failed g1");
+    uint x;
+    assembly { x := extcodesize(caller()) }
+    require(x == 0, "Failed g2");
+    uint64 _gateKey = ~uint64(bytes8(keccak256(abi.encodePacked(msg.sender))));
+    
+    require(uint64(bytes8(keccak256(abi.encodePacked(msg.sender)))) ^ uint64(_gateKey) == type(uint64).max, "Failed g3");
   }
 
   function enter(bytes8 _gateKey) public gateOne gateTwo gateThree(_gateKey) returns (bool) {
