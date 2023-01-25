@@ -40,8 +40,8 @@ contract GatekeeperTwoTest is Test {
         
     }
 
-    function afterRun() public {
-        gTF.validateInstance(payable(address(challengeAddress)), eoa);
+    function afterRun() public view returns(bool) {
+        return gTF.validateInstance(payable(address(challengeAddress)), eoa);
     }
 
     function testCheck() public {
@@ -51,6 +51,7 @@ contract GatekeeperTwoTest is Test {
         // eoa deploys attack contract to start attack
         gatekeeperAttack = new GatekeeperTwoAttack(address(challengeAddress));
 
-        afterRun();
+        // assertEq(afterRun(), true);
+        assertEq(afterRun(), true);
     }
 }

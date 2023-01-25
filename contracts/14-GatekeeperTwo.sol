@@ -8,19 +8,19 @@ contract GatekeeperTwo {
   address public entrant;
 
   modifier gateOne() {
-    require(msg.sender != tx.origin);
+    require(msg.sender != tx.origin, "Failed g1");
     _;
   }
 
   modifier gateTwo() {
     uint x;
     assembly { x := extcodesize(caller()) }
-    require(x == 0);
+    require(x == 0, "Failed g2");
     _;
   }
 
   modifier gateThree(bytes8 _gateKey) {
-    require(uint64(bytes8(keccak256(abi.encodePacked(msg.sender)))) ^ uint64(_gateKey) == type(uint64).max);
+    require(uint64(bytes8(keccak256(abi.encodePacked(msg.sender)))) ^ uint64(_gateKey) == type(uint64).max, "Failed g3");
     _;
   }
 
