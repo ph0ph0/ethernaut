@@ -45,13 +45,11 @@ contract GatekeeperTwoTest is Test {
     }
 
     function testCheck() public {
-        // Now all txs will be called from the eoa account
-        vm.startPrank(eoa);
-        console2.log('address(this)', address(this));
+        // Now all txs will be called from the eoa account and it is set as tx.origin
+        vm.startPrank(eoa, eoa);
         // eoa deploys attack contract to start attack
         gatekeeperAttack = new GatekeeperTwoAttack(address(challengeAddress));
 
-        // assertEq(afterRun(), true);
         assertEq(afterRun(), true);
     }
 }

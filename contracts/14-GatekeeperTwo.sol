@@ -26,8 +26,6 @@ contract GatekeeperTwo {
 
   function check() public view {
     // uint64(bytes8(keccak256(abi.encodePacked(msg.sender)))) ^ uint64(_gateKey) == type(uint64).max;
-    console.log("msg.sender", msg.sender);
-    console.log("tx.origin", tx.origin);
     require(msg.sender != tx.origin, "Failed g1");
     uint x;
     assembly { x := extcodesize(caller()) }
@@ -38,6 +36,8 @@ contract GatekeeperTwo {
   }
 
   function enter(bytes8 _gateKey) public gateOne gateTwo gateThree(_gateKey) returns (bool) {
+    console.log("msg.sender of .enter", msg.sender);
+    console.log("tx.origin of .enter", tx.origin);
     entrant = tx.origin;
     return true;
   }
