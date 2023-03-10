@@ -6,19 +6,17 @@ import "../contracts/14-GatekeeperTwoAttack.sol";
 import "../contracts/14-GatekeeperTwo.sol";
 import "../contracts/14-GatekeeperTwoFactory.sol";
 
-
 contract GatekeeperTwoTest is Test {
-
     GatekeeperTwoAttack public gatekeeperAttack;
-    GatekeeperTwo public gatekeeper; 
-    GatekeeperTwoFactory gTF;   
+    GatekeeperTwo public gatekeeper;
+    GatekeeperTwoFactory gTF;
     address eoa;
     address challengeAddress;
 
-    function createUsers(uint userNum) internal returns(address[] memory) {
-
+    function createUsers(uint256 userNum) internal returns (address[] memory) {
         address[] memory users = new address[](userNum);
-        for (uint i = 0; i < userNum; i++) {
+        for (uint256 i = 0; i < userNum; i++) {
+            // Compute the address from the given priv key
             address user = vm.addr(uint256(keccak256(abi.encodePacked(i))));
 
             // Fund user with 100 Eth
@@ -29,18 +27,16 @@ contract GatekeeperTwoTest is Test {
     }
 
     function setUp() public {
-        // Create EOA and take the 0th (1st) element from the returned array      
+        // Create EOA and take the 0th (1st) element from the returned array
         eoa = createUsers(1)[0];
         console2.log("eoa", eoa);
 
         // Deploy factory to create challenge instance
         gTF = new GatekeeperTwoFactory();
-        challengeAddress = gTF.createInstance(eoa);  
-
-        
+        challengeAddress = gTF.createInstance(eoa);
     }
 
-    function afterRun() public view returns(bool) {
+    function afterRun() public view returns (bool) {
         return gTF.validateInstance(payable(address(challengeAddress)), eoa);
     }
 
