@@ -38,10 +38,6 @@ contract NaughtCoinTest is Test {
     }
 
     function testCheck() public {
-        // Now all txs will be called from the eoa account and it is set as tx.origin
-        
-        // eoa deploys attack contract to start attack
-        // naughtCoinAttack = new NaughtCoinAttack(address(challengeAddress), address(eoa));
 
         NaughtCoin challengeContract = NaughtCoin(address(challengeAddress));
 
