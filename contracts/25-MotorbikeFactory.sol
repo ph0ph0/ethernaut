@@ -2,9 +2,11 @@
 
 pragma solidity <0.7.0;
 
-import "./base/Level-06.sol";
-import "./Motorbike.sol";
+import "./Level-06.sol";
+import "./25-Motorbike.sol";
 import "openzeppelin-contracts-06/utils/Address.sol";
+
+import "../lib/forge-std/src/console2.sol";
 
 contract MotorbikeFactory is Level {
 
@@ -16,6 +18,9 @@ contract MotorbikeFactory is Level {
     Engine engine = new Engine();
     Motorbike motorbike = new Motorbike(address(engine));
     engines[address(motorbike)] = address(engine);
+
+    console2.log("Motorbike address:", address(motorbike));
+    console2.log("Engine address:", address(engine));
 
     require(
         keccak256(Address.functionCall(

@@ -7,3 +7,4 @@ eth-gas-reporter/=node_modules/eth-gas-reporter/
 forge-std/=lib/forge-std/src/
 hardhat/=node_modules/hardhat/
 openzeppelin-contracts-08/=node_modules/openzeppelin-contracts-08/
+openzeppelin-contracts-06/=node_modules/openzeppelin-contracts-06/

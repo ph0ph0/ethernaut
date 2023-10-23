@@ -4,6 +4,7 @@ pragma solidity <0.7.0;
 
 import "openzeppelin-contracts-06/utils/Address.sol";
 import "openzeppelin-contracts-06/proxy/Initializable.sol";
+import "../lib/forge-std/src/console2.sol";
 
 contract Motorbike {
     // keccak-256 hash of "eip1967.proxy.implementation" subtracted by 1
@@ -85,6 +86,7 @@ contract Engine is Initializable {
     ) internal {
         // Initial upgrade and setup call
         _setImplementation(newImplementation);
+        console2.log("newImplementation:", newImplementation);
         if (data.length > 0) {
             (bool success,) = newImplementation.delegatecall(data);
             require(success, "Call failed");

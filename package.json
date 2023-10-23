@@ -15,7 +15,7 @@
     "@nomicfoundation/hardhat-chai-matchers": "^1.0.4",
     "@nomiclabs/hardhat-ethers": "^2.1.1",
     "@nomiclabs/hardhat-etherscan": "^3.1.0",
-    "@openzeppelin/contracts": "^3.4.1",
+    "@openzeppelin/contracts": "^3.4.0",
     "base64-sol": "^1.1.0",
     "chai": "^4.2.0",
     "dotenv": "^16.0.2",
@@ -25,6 +25,7 @@
   "dependencies": {
     "@nomicfoundation/hardhat-toolbox": "^2.0.0",
     "dotenv": "^8.2.0",
+    "openzeppelin-contracts-06": "npm:@openzeppelin/contracts@^3.4.2",
     "openzeppelin-contracts-08": "npm:@openzeppelin/contracts@^4.7.3"
   }
 }
