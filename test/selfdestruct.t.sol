@@ -1,3 +1,5 @@
+pragma solidity >=0.8.0 <0.9.0;
+
 // This test was created to investigate what happens to the ether sent to a contract that selfdestructs.
 // The conclusion is that the value transfer call within the selfdestruct call is executed immediately.
 // This is why the eoa receives the ether before the selfdestruct call is executed, where the contract is destroyed at the end of the call.

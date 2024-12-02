@@ -1,4 +1,5 @@
 // This is a contract to test selfdestruct
+pragma solidity >=0.8.0 <0.9.0;
 
 contract SelfDestruct {
     Recipient recipient;
